@@ -31,6 +31,8 @@ This repository contains samples that take advantage of the Open Enterprise SDK 
 
 ## 1. Create COBOL Kafka Producer Application
 
+![producer](images/producer.png)
+
 To efficiently manage Kafka interactions in COBOL applications, the SDK introduces a sample base program: IXYSPRDS for producing. These base programs encapsulate all underlying Kafka logic, including connection management, configuration handling, and message flow.
 
 ### 1.1 Creating IXYSPRDS, Kafka producer base COBOL program
@@ -94,6 +96,8 @@ To efficiently manage Kafka interactions in COBOL applications, the SDK introduc
 ---
 
 ## 2. Create COBOL Kafka Consumer Application
+
+![consumer](images/consumer.png)
 
 The SDK introduces a sample base program: IXYSCONS for consuming. These base programs encapsulate all underlying Kafka logic, including connection management, configuration handling, and message flow.
 
