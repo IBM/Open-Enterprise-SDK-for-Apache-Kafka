@@ -6,36 +6,68 @@ This repository contains samples that take advantage of the Open Enterprise SDK 
 
 ## Table of Contents
 
-1. [Create COBOL Kafka Producer Application](#1-create-cobol-kafka-producer-application)
-    1. [Creating IXYSPRDS, Kafka producer base COBOL program](#11-creating-ixysprds-kafka-producer-base-cobol-program)
-    2. [Creating IXYPRD64, Kafka producer application COBOL program](#12-creating-ixyprd64-kafka-producer-application-cobol-program)
-    3. [Create Kafka producer configuration file](#13-create-kafka-producer-configuration-file)
-    4. [Create topic configuration file](#14-create-topic-configuration-file)
-    5. [Compile Kafka producer Application](#15-compile-kafka-producer-application)
-    6. [Run producer application](#16-run-producer-application)
-2. [Create COBOL Kafka Consumer Application](#2-create-cobol-kafka-consumer-application)
-    1. [Creating IXYSCONS, Kafka consumer base COBOL program](#21-creating-ixyscons-kafka-consumer-base-cobol-program)
-    2. [Creating IXYCON64, Kafka consumer application COBOL program](#22-creating-ixycon64-kafka-consumer-application-cobol-program)
-    3. [Create consumer configuration file](#23-create-consumer-configuration-file)
-    4. [Create topic configuration file](#24-create-topic-configuration-file)
-    5. [Compile Kafka consumer application](#25-compile-kafka-consumer-application)
-    6. [Run consumer application](#26-run-consumer-application)
-3. [Serialization and Deserialization](#3-serialization-and-deserialization)
-    1. [Data Transformation Utility](#31-data-transformation-utility)
-    2. [Run Kafka producer sample with data serialization](#32-run-kafka-producer-sample-with-data-serialization)
-    3. [Run Kafka consumer sample with data deserialization](#33-run-kafka-consumer-sample-with-data-deserialization)
-4. [Best Practices](#4-best-practices)
-5. [Getting help and troubleshooting](#5-getting-help-and-troubleshooting)
+1. [Introduction to IBM Open Enterprise SDK for Apache Kafka](#1-introduction-to-ibm-open-enterprise-sdk-for-apache-kafka)
+2. [Useful resources for IBM Open Enterprise SDK for Apache Kafka](#2-useful-resources-for-ibm-open-enterprise-sdk-for-apache-kafka)
+3. [Create COBOL Kafka Producer Application](#3-create-cobol-kafka-producer-application)
+    3.1. [Creating IXYSPRDS, Kafka producer base COBOL program](#31-creating-ixysprds-kafka-producer-base-cobol-program)  
+    3.2. [Creating IXYPRD64, Kafka producer application COBOL program](#32-creating-ixyprd64-kafka-producer-application-cobol-program)  
+    3.3. [Create Kafka producer configuration file](#33-create-kafka-producer-configuration-file)  
+    3.4. [Create topic configuration file](#34-create-topic-configuration-file)  
+    3.5. [Compile Kafka producer Application](#35-compile-kafka-producer-application)  
+    3.6. [Run producer application](#36-run-producer-application)  
+4. [Create COBOL Kafka Consumer Application](#4-create-cobol-kafka-consumer-application)
+    4.1. [Creating IXYSCONS, Kafka consumer base COBOL program](#41-creating-ixyscons-kafka-consumer-base-cobol-program)  
+    4.2. [Creating IXYCON64, Kafka consumer application COBOL program](#42-creating-ixycon64-kafka-consumer-application-cobol-program)  
+    4.3. [Create consumer configuration file](#43-create-consumer-configuration-file)  
+    4.4. [Create topic configuration file](#44-create-topic-configuration-file)  
+    4.5. [Compile Kafka consumer application](#45-compile-kafka-consumer-application)  
+    4.6. [Run consumer application](#46-run-consumer-application)  
+5. [Serialization and Deserialization](#5-serialization-and-deserialization)
+    5.1. [Data Transformation Utility](#51-data-transformation-utility)  
+    5.2. [Run Kafka producer sample with data serialization](#52-run-kafka-producer-sample-with-data-serialization)  
+    5.3. [Run Kafka consumer sample with data deserialization](#53-run-kafka-consumer-sample-with-data-deserialization)  
+6. [Best Practices](#6-best-practices)
+7. [Getting help and troubleshooting](#7-getting-help-and-troubleshooting)
 
 ---
 
-## 1. Create COBOL Kafka Producer Application
+## 1. Introduction to IBM Open Enterprise SDK for Apache Kafka
+The [IBM Open Enterprise SDK for Apache Kafka](https://www.ibm.com/products/open-enterprise-sdk-apache-kafka) enables COBOL or C/C++ applications running on z/OS to natively interact with Apache Kafka brokers. This SDK simplifies the integration of z/OS applications with event-driven architectures, allowing them to consume and publish Kafka events directly.
+
+**Key features:**
+- Kafka Producer and Consumer APIs for COBOL and C/C++
+- Data Transformation Utility for converting between COBOL copybooks and JSON/Avro formats
+- Direct connectivity to Kafka clusters (no intermediaries required)
+
+**Benefits:**
+- Modernizes existing z/OS applications
+- Simplifies integration with Kafka
+- Eases data transformation between COBOL and modern event formats
+
+> **Note:** The SDK is supported in batch and IMS environments, but not in CICS.
+
+
+## 2. Useful resources for IBM Open Enterprise SDK for Apache Kafka
+
+## 2.1 How to install
+- Installing using [pax edition](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=kafka-installing-pax-edition)
+
+- Installing using [SME/E edition](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=kafka-installing-smpe-edition)
+
+## 2.2 COBOL Kafka APIs
+- COBOL Kafka APIs are listed [here](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=cobol-user-defined-functions-kafka)
+
+## 2.3 Configuration properties
+- List of COBOL Kafka configuration properties are [here](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=configuration-properties)
+
+
+## 3. Create COBOL Kafka Producer Application
 
 ![producer](images/producer.png)
 
 To efficiently manage Kafka interactions in COBOL applications, the SDK introduces a sample base program: IXYSPRDS for producing. These base programs encapsulate all underlying Kafka logic, including connection management, configuration handling, and message flow.
 
-### 1.1 Creating IXYSPRDS, Kafka producer base COBOL program
+### 3.1 Creating IXYSPRDS, Kafka producer base COBOL program
 
 - Open the file [`src/IXYSPRDS.cbl`](src/IXYSPRDS.cbl) in Edit mode.
 - The IXYSPRDS Kafka producer base program has the following sections:
@@ -51,7 +83,7 @@ To efficiently manage Kafka interactions in COBOL applications, the SDK introduc
         - Clean up resources
         - Tear down the connection 
 
-### 1.2 Creating IXYPRD64, Kafka producer application COBOL program
+### 3.2 Creating IXYPRD64, Kafka producer application COBOL program
 
 - Open [`src/IXYPRD64.cbl`](src/IXYPRD64.cbl) in Edit mode.
 - Reads configuration from [`conf/IXYPCONF.CONFIG`](conf/IXYPCONF.CONFIG) and constructs parameter arrays.
@@ -60,7 +92,7 @@ To efficiently manage Kafka interactions in COBOL applications, the SDK introduc
     - Read event file and produce message for every line 
     - Once done with producing all the events, clean up.
 
-### 1.3 Create Kafka producer configuration file
+### 3.3 Create Kafka producer configuration file
 
 - Located at [`conf/IXYPCONF.CONFIG`](conf/IXYPCONF.CONFIG)
 - Format: `key=value` per line (no blank lines)
@@ -72,7 +104,7 @@ To efficiently manage Kafka interactions in COBOL applications, the SDK introduc
     security.protocol=SASL_SSL
     ```
 
-### 1.4 Create topic configuration file
+### 3.4 Create topic configuration file
 
 - Located at [`conf/IXYTCONF.CONFIG`](conf/IXYTCONF.CONFIG)
 - Format: `topic-name` in a single line (no blank lines)
@@ -81,13 +113,13 @@ To efficiently manage Kafka interactions in COBOL applications, the SDK introduc
     credit-account-transaction
     ```
 
-### 1.5 Compile Kafka producer Application
+### 3.5 Compile Kafka producer Application
 
 - Use JCL scripts in [`jcl/`](jcl/):
     - [`jcl/IXYJPRDS.jcl`](jcl/IXYJPRDS.jcl): Compile/link base producer
     - [`jcl/IXYJPR64.jcl`](jcl/IXYJPR64.jcl): Compile/link producer application
 
-### 1.6 Run producer application
+### 3.6 Run producer application
 
 - Use [`jcl/IXYJRP64.jcl`](jcl/IXYJRP64.jcl) to run the producer.
 - Set the event file and LIBPATH as needed.
@@ -95,13 +127,13 @@ To efficiently manage Kafka interactions in COBOL applications, the SDK introduc
 
 ---
 
-## 2. Create COBOL Kafka Consumer Application
+## 4. Create COBOL Kafka Consumer Application
 
 ![consumer](images/consumer.png)
 
 The SDK introduces a sample base program: IXYSCONS for consuming. These base programs encapsulate all underlying Kafka logic, including connection management, configuration handling, and message flow.
 
-### 2.1 Creating IXYSCONS, Kafka consumer base COBOL program
+### 4.1 Creating IXYSCONS, Kafka consumer base COBOL program
 
 - Open [`src/IXYSCONS.cbl`](src/IXYSCONS.cbl) in Edit mode.
 - The consumer base program IXYSCONS does:
@@ -116,7 +148,7 @@ The SDK introduces a sample base program: IXYSCONS for consuming. These base pro
         - Clean up resources
         - Detach the connection
 
-### 2.2 Creating IXYCON64, Kafka consumer application COBOL program
+### 4.2 Creating IXYCON64, Kafka consumer application COBOL program
 
 - Open [`src/IXYCON64.cbl`](src/IXYCON64.cbl) in Edit mode.
 - Reads configuration from [`conf/IXYCCONF.CONFIG`](conf/IXYCCONF.CONFIG) and constructs parameter arrays.
@@ -125,7 +157,7 @@ The SDK introduces a sample base program: IXYSCONS for consuming. These base pro
     - Consume a single message at a time
     - Clean up once done with consuming all the messages from topic 
 
-### 2.3 Create consumer configuration file
+### 4.3 Create consumer configuration file
 
 - Located at [`conf/IXYCCONF.CONFIG`](conf/IXYCCONF.CONFIG)
 - Format: `key=value` per line (no blank lines)
@@ -138,7 +170,7 @@ The SDK introduces a sample base program: IXYSCONS for consuming. These base pro
     auto.offset.reset=earliest
     ```
 
-### 2.4 Create topic configuration file
+### 4.4 Create topic configuration file
 
 - Located at [`conf/IXYTCONF.CONFIG`](conf/IXYTCONF.CONFIG)
 - Format: `topic-name` in a single line (no blank lines)
@@ -147,13 +179,13 @@ The SDK introduces a sample base program: IXYSCONS for consuming. These base pro
     credit-account-transaction
     ```
 
-### 2.5 Compile Kafka consumer application
+### 4.5 Compile Kafka consumer application
 
 - Use JCL scripts in [`jcl/`](jcl/):
     - [`jcl/IXYJCONS.jcl`](jcl/IXYJCONS.jcl): Compile/link base consumer
     - [`jcl/IXYJCN64.jcl`](jcl/IXYJCN64.jcl): Compile/link consumer application
 
-### 2.6 Run consumer application
+### 4.6 Run consumer application
 
 - Use [`jcl/IXYJRC64.jcl`](jcl/IXYJRC64.jcl) to run the consumer.
 - Set LIBPATH as needed.
@@ -161,9 +193,9 @@ The SDK introduces a sample base program: IXYSCONS for consuming. These base pro
 
 ---
 
-## 3. Serialization and Deserialization
+## 5. Serialization and Deserialization
 
-### 3.1 Data Transformation Utility
+### 5.1 Data Transformation Utility
 
 The data transformation utility is included in Open Enterprise SDK for Apache Kafka to help you transform data between native COBOL copybooks and the event format in JSON/Avro. The utility is available as a command-line tool.
 
@@ -211,21 +243,25 @@ To use the utility, first connect to the z/OS Unix System Services (USS) environ
 8. **Result:**  
    The data transformation utility generates the COBOL copybook and other transformation code snippets, which can then be added to your business application.
 
-### 3.2 Run Kafka producer sample with data serialization
+### 5.2 Run Kafka producer sample with data serialization
 
 - Edit and run [`src/IXYPAV64.cbl`](src/IXYPAV64.cbl) to produce Avro-serialized messages.
+- IXYPAV64.cbl COBOL application will use the copybook generated in step 5.1 and populate the copybook 
+- IXYPAV64.cbl will then transform the copybook to avro using the SERDES (Serialization and Deserialization) APIs and then produces the message the same as in step 3. 
 - Use [`conf/IXYSCONF.CONFIG`](conf/IXYSCONF.CONFIG) for SerDes configuration.
 - Run with [`jcl/IXYJRPA6.jcl`](jcl/IXYJRPA6.jcl).
 
-### 3.3 Run Kafka consumer sample with data deserialization
+### 5.3 Run Kafka consumer sample with data deserialization
 
 - Edit and run [`src/IXYCAV64.cbl`](src/IXYCAV64.cbl) to consume and deserialize Avro messages.
+- IXYCAV64.cbl COBOL application will consume the serialized event from the Kafka topic
+- IXYPAV64.cbl will then transform the serialized AVRO event to copybook using the SERDES (Serialization and Deserialization) APIs. 
 - Use [`conf/IXYSCONF.CONFIG`](conf/IXYSCONF.CONFIG) for SerDes configuration.
 - Run with [`jcl/IXYJRCA6.jcl`](jcl/IXYJRCA6.jcl).
 
 ---
 
-## 4. Best Practices
+## 6. Best Practices
 
 Let us go through some of the best practices to be followed in online and batch application.
 
@@ -243,7 +279,7 @@ Let us go through some of the best practices to be followed in online and batch 
 
 ---
 
-## 5. Getting help and troubleshooting
+## 7. Getting help and troubleshooting
 
 - Enable debug logging with `debug=all` in configuration.
 - Check job logs and return codes for errors.
