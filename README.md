@@ -49,15 +49,12 @@ The [IBM Open Enterprise SDK for Apache Kafka](https://www.ibm.com/products/open
 
 ## 2. Useful resources for IBM Open Enterprise SDK for Apache Kafka
 
-### 2.1 How to install
 - Installing using [pax edition](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=kafka-installing-pax-edition)
 
 - Installing using [SME/E edition](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=kafka-installing-smpe-edition)
 
-### 2.2 COBOL Kafka APIs
 - COBOL Kafka APIs are listed [here](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=cobol-user-defined-functions-kafka)
 
-### 2.3 Configuration properties
 - List of COBOL Kafka configuration properties are [here](https://www.ibm.com/docs/en/kafka-zos/1.1.0?topic=configuration-properties)
 
 
