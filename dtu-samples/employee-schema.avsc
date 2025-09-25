@@ -1,0 +1,179 @@
+{
+  "type": "record",
+  "name": "EmployeeSchema",
+  "namespace": "com.example"
+  "doc": "A schema for storing employee records",
+  "fields": [
+    {
+      "name": "employeeId",
+      "type": "string",
+      "doc": "Unique identifier for the employee",
+      "length": {"min": 3, "max": 15}
+    },
+    {
+      "name": "fullName",
+      "type": "string",
+      "doc": "Full name of the employee"
+    },
+    {
+      "name": "isFullTime",
+      "type": "boolean"
+    },
+    {
+      "name": "employeeLevel",
+      "type": "int",
+      "doc": "Job level or grade"
+    },
+    {
+      "name": "dateOfJoining",
+      "type": "long",
+      "doc": "Unix epoch time in seconds representing date of joining"
+    },
+    {
+      "name": "insuranceCoverage",
+      "type": "float"
+    },
+    {
+      "name": "annualSalary",
+      "type": "double"
+    },
+    {
+      "name": "documentData",
+      "type": "bytes",
+      "doc": "Binary data for documents"
+    },
+    {
+      "name": "securityToken",
+      "type": {
+        "name": "SecurityToken",
+        "type": "fixed",
+        "size": 16
+      },
+      "doc": "Fixed-length security token"
+    },
+    {
+      "name": "skills",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "List of skills",
+      "length": {"min": 0, "max": 5}
+    },
+    {
+      "name": "teamMemberIds",
+      "type": {
+        "type": "array",
+        "items": "int"
+      },
+      "doc": "IDs of team members"
+    },
+    {
+      "name": "sessionHistory",
+      "type": {
+        "type": "array",
+        "items": "long"
+      },
+      "doc": "Session history"
+    },
+    {
+      "name": "salaryHistory",
+      "type": {
+        "type": "array",
+        "items": "double"
+      },
+      "doc": "Past salary values"
+    },
+    {
+      "name": "monthlyAllowances",
+      "type": {
+        "type": "array",
+        "items": "float"
+      }
+    },
+    {
+      "name": "profilePicture",
+      "type": {
+        "type": "array",
+        "items": "bytes"
+      },
+      "doc": "Profile picture data"
+    },
+    {
+      "name": "certifications",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "Certification",
+          "fields": [
+            {
+              "name": "certificationName",
+              "type": "string",
+              "length": {"min": 3, "max": 10}
+            },
+            {
+              "name": "certificationScore",
+              "type": "int",
+              "range": {"min": 1, "max": 1000}
+            }
+          ]
+        }
+      },
+      "doc": "Certifications earned by the employee"
+    },
+    {
+    "name": "contactDetails",
+    "type": {
+      "type": "record",
+      "name": "ContactDetails",
+      "fields": [
+        {
+          "name": "email",
+          "type": "string",
+          "length": { "min": 5, "max": 100 }
+        },
+        {
+          "name": "phoneNumber",
+          "type": "string",
+          "length": { "min": 10, "max": 15 }
+        },
+        {
+          "name": "address",
+          "type": {
+            "type": "record",
+            "name": "Address",
+            "fields": [
+              {
+                "name": "street",
+                "type": "string",
+                "length": { "min": 1, "max": 100 }
+              },
+              {
+                "name": "city",
+                "type": "string",
+                "length": { "min": 1, "max": 50 }
+              },
+              {
+                "name": "state",
+                "type": "string",
+                "length": { "min": 1, "max": 50 }
+              },
+              {
+                "name": "country",
+                "type": "string",
+                "length": { "min": 1, "max": 50 }
+              },
+              {
+                "name": "pincode",
+                "type": "string",
+                "length": { "min": 4, "max": 10 }
+              }
+            ]}
+          }
+        ]
+      },
+      "doc": "Employee contact information including email, phone, and full address"
+    }
+  ]
+}
