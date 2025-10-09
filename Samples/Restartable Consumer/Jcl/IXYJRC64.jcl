@@ -35,8 +35,9 @@
 //* 5) Change @@CHKPTFIL@@ to the path for the Checkpoint file which
 //*    holds the Partition and Offset details.
 //* 
-//* 6) Change the PARM Value from RESTART to NONE in case of normal
-//*    execution.
+//* 6) Keep the PARM Value as RESTART in case Restart and to NONE in 
+//*    case of normal execution.
+//* 
 //********************************************************************
 //SETPARM SET IXYHLQ=@@IXYHLQ@@,
 //            CEEHLQ=@@CEEHLQ@@

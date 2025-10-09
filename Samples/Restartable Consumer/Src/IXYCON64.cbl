@@ -22,7 +22,8 @@
       * This program calls IXYSCONS module and consume the message
       * from Kafka. This program uses CONFFILE to get the
       * Configuration parameters needed. It uses TOPICFIL to get the
-      * topic details.
+      * topic details. It uses CHKPTFIL to get the partition and offset
+      * details.
       *
       * The program should be modified with the following changes:
       * 1) The value of PART-VAL should be set to the target partition
@@ -38,6 +39,9 @@
       *    Change structure, file description and use a different flat
       *    file instead of standard file from the library accordingly,
       *    if the topic length crosses 1024 bytes.
+      * 6) CHKPTFIL - This is the file which contains the partition and
+      *    offset details. This is mostly used during the restart 
+      *    scenario.
       ******************************************************************
        IDENTIFICATION DIVISION.
         PROGRAM-ID. 'IXYCON64'.
@@ -110,8 +114,6 @@
          01 WS-CNT1             PIC 9(9) VALUE 1.
          01 WS-PCNT             PIC 9(9) VALUE 1.
          01 WS-NEW-PARTITION-FLAG   PIC X(1).
-         01 ABD-CODE                PIC S9(9) BINARY VALUE 1234.
-         01 TIMING                  PIC S9(9) BINARY VALUE 0.
 
       * File Status
          01 WS-FILE-STATUS      PIC 9(02).
@@ -162,11 +164,11 @@
                MOVE WS-CHKPT-PARTITION(WS-CNT1) TO
                RESTART-PARTITION(WS-CNT1)
                IF RESTART-IND = 'Y'
-               MOVE WS-CHKPT-OFFSET(WS-CNT1)  TO
-               RESTART-OFFSET(WS-CNT1)
-               IF RESTART-OFFSET(WS-CNT1) > 0
-                 ADD 1 TO RESTART-OFFSET(WS-CNT1)
-               END-IF
+                 MOVE WS-CHKPT-OFFSET(WS-CNT1)  TO
+                   RESTART-OFFSET(WS-CNT1)
+                 IF RESTART-OFFSET(WS-CNT1) > 0
+                   ADD 1 TO RESTART-OFFSET(WS-CNT1)
+                 END-IF
                ELSE
                  MOVE 0 TO RESTART-OFFSET(WS-CNT1)
                            WS-CHKPT-OFFSET(WS-CNT1)
@@ -177,7 +179,6 @@
 
            PERFORM INIT-KAFKA-CONSUMER
            PERFORM UNTIL
-      *                  WS-CONSUME-CNT = 60
                          WS-END-CONSUMER = 'Y'
              PERFORM KAFKA-CONSUME-MESSAGE
            END-PERFORM
@@ -322,104 +323,91 @@
            MOVE 'C'             TO KAFKA-ACTION
            DISPLAY "KAFKA CONSUME BEGIN"
 
-             CALL CONSUMER-PGM USING CONSUMER-INPUT
+           CALL CONSUMER-PGM USING CONSUMER-INPUT
                              RETURNING CONSUMER-OUTPUT
 
-             IF KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT NOT = 0
-               IF KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT = -191
-      *          IF WS-PCNT = WS-RCNT
-                   MOVE KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT TO
+           IF KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT NOT = 0
+             IF KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT = -191
+               MOVE KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT TO
                                        WS-DISPLAY-ERR
-                   MOVE 'Y' TO WS-END-CONSUMER
-      *          ELSE
-      *            ADD 1 TO WS-PCNT
-      *          END-IF
-               ELSE
-                 MOVE KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT TO
-                                       WS-DISPLAY-ERR
-                 MOVE 'Y' TO WS-END-CONSUMER
-      *          IF KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT = -185 AND
-      *             WS-CONSUME-CNT > 0
-      *            DISPLAY "WARNING : " FUNCTION TRIM(KAFKA-MSG)
-      *            DISPLAY "WARNING CODE : " WS-DISPLAY-ERR
-      *          ELSE
-                 DISPLAY "ERROR : " FUNCTION TRIM(KAFKA-MSG)
-                 DISPLAY "ERROR CODE : " WS-DISPLAY-ERR
-                 MOVE 16 TO RETURN-CODE
-               END-IF
-      *
+               MOVE 'Y' TO WS-END-CONSUMER
              ELSE
-               SET ADDRESS OF KAFKA-MSG-ASCII
+               MOVE KAFKA-MSG-RESPONSE OF CONSUMER-OUTPUT TO
+                                       WS-DISPLAY-ERR
+               MOVE 'Y' TO WS-END-CONSUMER
+               DISPLAY "ERROR : " FUNCTION TRIM(KAFKA-MSG)
+               DISPLAY "ERROR CODE : " WS-DISPLAY-ERR
+               MOVE 16 TO RETURN-CODE
+             END-IF
+
+           ELSE
+             SET ADDRESS OF KAFKA-MSG-ASCII
                    TO KAFKA-PAYLOAD-64
 
-               MOVE FUNCTION DISPLAY-OF (
-                 FUNCTION
-                   NATIONAL-OF(KAFKA-MSG-ASCII 819) 1047)
-                     TO KAFKA-MSG-TEMP
+             MOVE FUNCTION DISPLAY-OF (
+                    FUNCTION
+                       NATIONAL-OF(KAFKA-MSG-ASCII 819) 1047)
+                         TO KAFKA-MSG-TEMP
 
-               DISPLAY "MESSAGE CONSUMED : "
+             DISPLAY "MESSAGE CONSUMED : "
                                KAFKA-MSG-TEMP(1:KAFKA-PAYLOAD-LEN)
-               DISPLAY "MESSAGE LENGTH : " KAFKA-PAYLOAD-LEN
-               ADD 1 TO WS-CONSUME-CNT
-               MOVE 'Y' TO WS-NEW-PARTITION-FLAG
+             DISPLAY "MESSAGE LENGTH : " KAFKA-PAYLOAD-LEN
+             ADD 1 TO WS-CONSUME-CNT
+             MOVE 'Y' TO WS-NEW-PARTITION-FLAG
 
-               IF WS-RCNT > 0
-                 DISPLAY "WITHIN IF "
-                 MOVE 1 TO WS-CNT1
-
-                 DISPLAY "WS-CNT1 : " WS-CNT1
-                 DISPLAY "WS-RCNT : " WS-RCNT
-                 PERFORM UNTIL WS-CNT1 > WS-RCNT
-                   DISPLAY "WITHIN perform "
-
-                   DISPLAY "WS-CHKPT-PARTITION(WS-CNT1) : "
-                     WS-CHKPT-PARTITION(WS-CNT1)
-                   DISPLAY "PAYLOAD-PARTITION : "
-                     PAYLOAD-PARTITION
-                   IF WS-CHKPT-PARTITION(WS-CNT1) = PAYLOAD-PARTITION
-                     MOVE PAYLOAD-OFFSET TO WS-CHKPT-OFFSET(WS-CNT1)
-                     MOVE 'N' TO WS-NEW-PARTITION-FLAG
-                   END-IF
-                   ADD 1 TO WS-CNT1
-                 END-PERFORM
-               END-IF
-
-               IF WS-NEW-PARTITION-FLAG = 'Y'
-                 ADD 1 TO WS-RCNT
-                 DISPLAY "WS-RCNT : " WS-RCNT
-                 MOVE WS-RCNT TO RESTART-PARTNOS
-                 MOVE PAYLOAD-OFFSET TO WS-CHKPT-OFFSET(WS-RCNT)
-                 MOVE PAYLOAD-PARTITION TO WS-CHKPT-PARTITION(WS-RCNT)
-               END-IF
-
-             END-IF
-
-             DIVIDE WS-CONSUME-CNT BY 50 GIVING MC-QUOTIENT
-                   REMAINDER MC-REMAINDER
-
-             IF MC-REMAINDER = 0
-               OPEN OUTPUT CHKPTFIL
+             IF WS-RCNT > 0
+               DISPLAY "WITHIN IF "
                MOVE 1 TO WS-CNT1
-               PERFORM UNTIL WS-CNT1 > WS-RCNT
 
-                 MOVE WS-CHKPT-OFFSET(WS-CNT1) TO CHKPT-OFFSET
-                 DISPLAY "WS-CHKPT-OFFSET(WS-CNT1) : "
-                    WS-CHKPT-OFFSET(WS-CNT1)
-                 MOVE WS-CHKPT-PARTITION(WS-CNT1) TO CHKPT-PARTITION
+               DISPLAY "WS-CNT1 : " WS-CNT1
+               DISPLAY "WS-RCNT : " WS-RCNT
+               PERFORM UNTIL WS-CNT1 > WS-RCNT
+                 DISPLAY "WITHIN perform "
+
                  DISPLAY "WS-CHKPT-PARTITION(WS-CNT1) : "
-                    WS-CHKPT-PARTITION(WS-CNT1)
-                 WRITE CHECK-POINT-FILE
+                     WS-CHKPT-PARTITION(WS-CNT1)
+                 DISPLAY "PAYLOAD-PARTITION : "
+                     PAYLOAD-PARTITION
+                 IF WS-CHKPT-PARTITION(WS-CNT1) = PAYLOAD-PARTITION
+                   MOVE PAYLOAD-OFFSET TO WS-CHKPT-OFFSET(WS-CNT1)
+                   MOVE 'N' TO WS-NEW-PARTITION-FLAG
+                 END-IF
                  ADD 1 TO WS-CNT1
                END-PERFORM
-               CLOSE CHKPTFIL
-
              END-IF
-      *      IF WS-CONSUME-CNT = 60
-      *        DISPLAY "ABNORMAL END AFTER 60"
-      *        MOVE 16 TO RETURN-CODE
-      *        STOP RUN
-      *      END-IF
-             .
+
+             IF WS-NEW-PARTITION-FLAG = 'Y'
+               ADD 1 TO WS-RCNT
+               DISPLAY "WS-RCNT : " WS-RCNT
+               MOVE WS-RCNT TO RESTART-PARTNOS
+               MOVE PAYLOAD-OFFSET TO WS-CHKPT-OFFSET(WS-RCNT)
+               MOVE PAYLOAD-PARTITION TO WS-CHKPT-PARTITION(WS-RCNT)
+             END-IF
+
+           END-IF
+
+           DIVIDE WS-CONSUME-CNT BY 50 GIVING MC-QUOTIENT
+                  REMAINDER MC-REMAINDER
+
+           IF MC-REMAINDER = 0
+             OPEN OUTPUT CHKPTFIL
+             MOVE 1 TO WS-CNT1
+             PERFORM UNTIL WS-CNT1 > WS-RCNT
+
+               MOVE WS-CHKPT-OFFSET(WS-CNT1) TO CHKPT-OFFSET
+               DISPLAY "WS-CHKPT-OFFSET(WS-CNT1) : "
+                    WS-CHKPT-OFFSET(WS-CNT1)
+               MOVE WS-CHKPT-PARTITION(WS-CNT1) TO CHKPT-PARTITION
+               DISPLAY "WS-CHKPT-PARTITION(WS-CNT1) : "
+                    WS-CHKPT-PARTITION(WS-CNT1)
+               WRITE CHECK-POINT-FILE
+               ADD 1 TO WS-CNT1
+             END-PERFORM
+             CLOSE CHKPTFIL
+
+           END-IF
+           .
+      **************** Consume section End ****************************
 
        WRITE-CHKPT-FILE.
            OPEN OUTPUT CHKPTFIL
@@ -439,9 +427,6 @@
            DISPLAY "FINAL WS-RCNT : " WS-RCNT
 
            CLOSE CHKPTFIL.
-
-
-      **************** Consume section End ****************************
 
        DESTROY-KAFKA-CONSUME.
       **************** Deletion section Begin *************************
