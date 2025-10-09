@@ -31,14 +31,15 @@
          01 INDEX-POS             PIC 9(04) BINARY.
          01 MSG-SIZE-D            PIC z,zzz,zz9.
          01 MSG-PART-D            PIC z,zzz,zz9.
+         01 MSG-OFFSET-D          PIC z,zzz,zz9.
         LINKAGE SECTION.
          01 RD-KAFKA-T            USAGE POINTER.
          01 RD-KAFKA-MESSAGE-T-STRUCT.
             05 ERROR-CODE         PIC S9(9) BINARY.
             05 FILLER             PIC X(04).
             05 MSG-TOPIC          USAGE POINTER.
-            05 FILLER             PIC X(04).
             05 MSG-PART           PIC S9(9) BINARY.
+            05 FILLER             PIC X(04).
             05 MSG-REF            USAGE POINTER.
             05 MSG-SIZE           PIC S9(18) BINARY.
             05 MSG-KEY-REF        USAGE POINTER.
@@ -53,10 +54,12 @@
            IF ERROR-CODE = 0 THEN
               MOVE MSG-SIZE      TO MSG-SIZE-D
               MOVE MSG-PART      TO MSG-PART-D
+              MOVE MSG-OFFSET    TO MSG-OFFSET-D
               DISPLAY "**********************************************"
               DISPLAY "MESSAGE DELIVERED SUCCESSFULLY "
               DISPLAY "  MESSAGE SIZE    : " MSG-SIZE-D " BYTES "
               DISPLAY "  PARTITION       : " MSG-PART-D
+              DISPLAY "  OFFSET          : " MSG-OFFSET-D
               DISPLAY "**********************************************"
            ELSE
               DISPLAY "**********************************************"
