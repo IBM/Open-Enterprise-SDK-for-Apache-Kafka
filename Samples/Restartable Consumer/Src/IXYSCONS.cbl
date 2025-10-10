@@ -394,9 +394,9 @@
                          GOBACK
                        END-IF
 
-                       IF (RETURN-STATUS OF KAFKA-LAST-ERROR-OUT = -185                                                                  
+                       IF (RETURN-STATUS OF KAFKA-LAST-ERROR-OUT = -185
                             OR
-                           RETURN-STATUS OF KAFKA-LAST-ERROR-OUT = -191)                            
+                           RETURN-STATUS OF KAFKA-LAST-ERROR-OUT = -191)
 
                          IF WS-RCNT < RESTART-PARTNOS
                            MOVE 'N' TO RESTART-FLAG(WS-RCNT)
@@ -639,8 +639,8 @@
                    RETURN-STATUS  OF KAFKA-CONSUMER-CLOSE-OUT
 
                  IF RETURN-STATUS  OF KAFKA-CONSUMER-CLOSE-OUT NOT = 0
-                   DISPLAY " **ERROR** : IXY-KAFKA-CONSUMER-CLOSE 
-                                                                FAILED"
+                   DISPLAY 
+                     " **ERROR** : IXY-KAFKA-CONSUMER-CLOSE FAILED"
                    MOVE RETURN-STATUS  OF KAFKA-CONSUMER-CLOSE-OUT TO
                              RETURN-STATUS    OF KAFKA-ERR2STR-IN
                    PERFORM GENERATE-ERR-STR
