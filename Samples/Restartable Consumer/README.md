@@ -1,4 +1,4 @@
-# Restartable Consumer Samples using Open-Enterprise-SDK-for-Apache-Kafka
+# Restartable Consumer COBOL Sample using Open-Enterprise-SDK-for-Apache-Kafka
 
 This repository contains Kafka consumer samples upgraded using the base samples provided in the main repo. This sample demonstrates batch restartability functionality along with the SDK — a critical feature for long-running batch jobs that need to recover gracefully from failures. These samples illustrate techniques for checkpointing, recovery, and job control using COBOL in a mainframe environment.
 

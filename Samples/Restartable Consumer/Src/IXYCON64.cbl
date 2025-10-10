@@ -199,15 +199,9 @@
                ADD 1 TO WS-RCNT
                MOVE CHKPT-PARTITION TO
                                  WS-CHKPT-PARTITION (WS-RCNT)
-               DISPLAY "CHKPT INIT"
-               DISPLAY "WS-CHKPT-PARTITION (WS-RCNT) : "
-                 WS-CHKPT-PARTITION (WS-RCNT)
                MOVE CHKPT-OFFSET TO WS-CHKPT-OFFSET (WS-RCNT)
-               DISPLAY "WS-CHKPT-OFFSET (WS-RCNT) : "
-                 WS-CHKPT-OFFSET (WS-RCNT)
              END-READ
            END-PERFORM
-           DISPLAY "INITIAL WS-RCNT : " WS-RCNT
            MOVE WS-RCNT TO RESTART-PARTNOS
            CLOSE CHKPTFIL.
 
@@ -356,18 +350,9 @@
              MOVE 'Y' TO WS-NEW-PARTITION-FLAG
 
              IF WS-RCNT > 0
-               DISPLAY "WITHIN IF "
                MOVE 1 TO WS-CNT1
 
-               DISPLAY "WS-CNT1 : " WS-CNT1
-               DISPLAY "WS-RCNT : " WS-RCNT
                PERFORM UNTIL WS-CNT1 > WS-RCNT
-                 DISPLAY "WITHIN perform "
-
-                 DISPLAY "WS-CHKPT-PARTITION(WS-CNT1) : "
-                     WS-CHKPT-PARTITION(WS-CNT1)
-                 DISPLAY "PAYLOAD-PARTITION : "
-                     PAYLOAD-PARTITION
                  IF WS-CHKPT-PARTITION(WS-CNT1) = PAYLOAD-PARTITION
                    MOVE PAYLOAD-OFFSET TO WS-CHKPT-OFFSET(WS-CNT1)
                    MOVE 'N' TO WS-NEW-PARTITION-FLAG
@@ -378,7 +363,6 @@
 
              IF WS-NEW-PARTITION-FLAG = 'Y'
                ADD 1 TO WS-RCNT
-               DISPLAY "WS-RCNT : " WS-RCNT
                MOVE WS-RCNT TO RESTART-PARTNOS
                MOVE PAYLOAD-OFFSET TO WS-CHKPT-OFFSET(WS-RCNT)
                MOVE PAYLOAD-PARTITION TO WS-CHKPT-PARTITION(WS-RCNT)
@@ -395,11 +379,7 @@
              PERFORM UNTIL WS-CNT1 > WS-RCNT
 
                MOVE WS-CHKPT-OFFSET(WS-CNT1) TO CHKPT-OFFSET
-               DISPLAY "WS-CHKPT-OFFSET(WS-CNT1) : "
-                    WS-CHKPT-OFFSET(WS-CNT1)
                MOVE WS-CHKPT-PARTITION(WS-CNT1) TO CHKPT-PARTITION
-               DISPLAY "WS-CHKPT-PARTITION(WS-CNT1) : "
-                    WS-CHKPT-PARTITION(WS-CNT1)
                WRITE CHECK-POINT-FILE
                ADD 1 TO WS-CNT1
              END-PERFORM
@@ -415,16 +395,11 @@
            PERFORM UNTIL WS-CNT1 > WS-RCNT
 
              MOVE WS-CHKPT-OFFSET(WS-CNT1) TO CHKPT-OFFSET
-             DISPLAY "WS-CHKPT-OFFSET(WS-CNT1) : "
-               WS-CHKPT-OFFSET(WS-CNT1)
              MOVE WS-CHKPT-PARTITION(WS-CNT1) TO CHKPT-PARTITION
-             DISPLAY "WS-CHKPT-PARTITION(WS-CNT1) : "
-               WS-CHKPT-PARTITION(WS-CNT1)
              WRITE CHECK-POINT-FILE
              ADD 1 TO WS-CNT1
 
            END-PERFORM
-           DISPLAY "FINAL WS-RCNT : " WS-RCNT
 
            CLOSE CHKPTFIL.
 
