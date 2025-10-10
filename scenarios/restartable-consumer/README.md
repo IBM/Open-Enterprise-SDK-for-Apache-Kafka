@@ -9,7 +9,7 @@ This repository contains Kafka consumer samples upgraded using the base samples 
 1. [IXYCONSI.cpy](copy/IXYCONSI.cpy) - Use this updated input copybook for consumer base program IXYCONS.
 2. [IXYCONSO.cpy](scenarios/restartable-consumer/copy/IXYCONSO.cpy) - Use this updated output copybook for consumer base program IXYCONS.
 3. [IXYSCONS.cbl](scenarios/restartable-consumer/src/IXYSCONS.cbl) - Consumer sample updated to handle Basic restartable batch job using a checkpoint file.
-4. [IXYJCONS.jcl](jcl/IXYJCONS.jcl) - Use this JCL to compile the updated base consumer module
+4. [IXYJCONS.jcl](../../jcl/IXYJCONS.jcl) - Use this JCL to compile the updated base consumer module
 5. [IXYCON64.cbl](scenarios/restartable-consumer/src/IXYCON64.cbl) - Consumer Application program which invokes the updated base consumer module IXYSCONS    by providing the details of partition and offset, in case of restart.
 6. [IXYJCN64.cbl](jcl/IXYJCN64.cbl) - Use this JCL to compile the updated application consumer program IXYCON64.cbl
 7. [CHKPTFIL.cpy](scenarios/restartable-consumer/copy/CHKPTFIL.cpy) - Use this copybook to create a Checkpoint file of size 2049 similar to other config files. Provide the partition and offset. Offset can be set to zero.
