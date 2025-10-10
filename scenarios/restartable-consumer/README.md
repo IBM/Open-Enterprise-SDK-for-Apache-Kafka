@@ -11,7 +11,7 @@ This repository contains Kafka consumer samples upgraded using the base samples 
 3. [IXYSCONS.cbl](src/IXYSCONS.cbl) - Consumer sample updated to handle Basic restartable functionality using a checkpoint file.
 4. [IXYJCONS.jcl](../../jcl/IXYJCONS.jcl) - Use this JCL to compile the updated base consumer module IXYSCONS.
 5. [IXYCON64.cbl](src/IXYCON64.cbl) - Consumer Application program which invokes the updated base consumer module IXYSCONS by providing the details of partition and offset, in case of restart.
-6. [IXYJCN64.cbl](../../jcl/IXYJCN64.cbl) - Use this JCL to compile the updated application consumer program IXYCON64.cbl
+6. [IXYJCN64.cbl](../../jcl/IXYJCN64.jcl) - Use this JCL to compile the updated application consumer program IXYCON64.cbl
 7. [CHKPTFIL.cpy](copy/CHKPTFIL.cpy) - Use this copybook to create a Checkpoint file of size 2049 similar to other config files. Provide the partition and offset. Offset can be set to zero.
 8. [IXYCCONF.CONFIG](conf/IXYCCONF.CONFIG) - use this consumer configuration file which includes enabling end of partition to true for detecting the end of partition during consume. Update other details accordingly.
 9. [IXYJRC64.jcl](jcl/IXYJRC64.jcl) - Use this JCL to run the consumer application program by providing the checkpoint file created. PARM value should be RESTART incase of job restart or it can be NONE.
@@ -22,12 +22,12 @@ This repository contains Kafka consumer samples upgraded using the base samples 
 2. Kafka broker should have messages produced to the topic.
 
 ## Features
-### First processing :
+### First Processing :
 1. Reads the checkpoint file for partitions count and partition numbers. If not available, then checkpoint file is updated with the partition and offset post consume.
 2. High level API's are invoked for consuming by Subscribing to the topic and polling continuously.
 3. Destroy after end of partitions is reached for all partitions.
 
-### restart processing:
+### Restart Processing:
 
 1. Reads the checkpoint data for each partition and offset.
 2. Start consuming from the next offset using low level API's Consume Start and Consume. This Skips already processed records. Continues from the last known good state.
