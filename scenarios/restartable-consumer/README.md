@@ -6,7 +6,7 @@ This repository contains Kafka consumer samples upgraded using the base samples 
 
 ## Table of Contents
 
-1. [IXYCONSI.cpy](scenarios/restartable-consumer/copy/IXYCONSI.cpy) - Use this updated input copybook for consumer base program IXYCONS.
+1. [IXYCONSI.cpy](copy/IXYCONSI.cpy) - Use this updated input copybook for consumer base program IXYCONS.
 2. [IXYCONSO.cpy](scenarios/restartable-consumer/copy/IXYCONSO.cpy) - Use this updated output copybook for consumer base program IXYCONS.
 3. [IXYSCONS.cbl](scenarios/restartable-consumer/src/IXYSCONS.cbl) - Consumer sample updated to handle Basic restartable batch job using a checkpoint file.
 4. [IXYJCONS.jcl](jcl/IXYJCONS.jcl) - Use this JCL to compile the updated base consumer module
