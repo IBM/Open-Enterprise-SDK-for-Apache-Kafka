@@ -6,15 +6,15 @@ This repository contains Kafka consumer samples upgraded using the base samples 
 
 ## Table of Contents
 
-1. [Samples/Restartable Consumer/Copy/IXYCONSI.cpy] - Use this updated input copybook for consumer base program IXYCONS.
-2. [Samples/Restartable Consumer/Copy/IXYCONSO.cpy] - Use this updated output copybook for consumer base program IXYCONS.
-3. [Samples/Restartable Consumer/Src/IXYSCONS.cbl] - Consumer sample updated to handle Basic restartable batch job using a checkpoint file.
-4. [jcl/IXYJCONS.jcl] - Use this JCL to compile the updated base consumer module
-5. [Samples/Restartable Consumer/Src/IXYCON64.cbl] - Consumer Application program which invokes the updated base consumer module IXYSCONS    by providing the details of partition and offset, in case of restart.
-6. [jcl/IXYJCN64.cbl] - Use this JCL to compile the updated application consumer program IXYCON64.cbl
-7. [Samples/Restartable Consumer/Copy/CHKPTFIL.cpy] - Use this copybook to create a Checkpoint file of size 2049 similar to other config files. Provide the partition and offset. Offset can be set to zero.
-8. [Samples/Restartable Consumer/Conf/IXYCCONF.CONFIG] - use this consumer configuration file which includes enabling end of partition to true for detecting the end of partition when it occurs. Update other details accordingly.
-9. [Samples/Restartable Consumer/Jcl/IXYJRC64.jcl] - Use this JCL to run the consumer application program by providing the checkpoint file created. PARM value should be RESTART incase of job restart or it can be NONE.
+1. [IXYCONSI.cpy](scenarios/restartable-consumer/copy/IXYCONSI.cpy) - Use this updated input copybook for consumer base program IXYCONS.
+2. [IXYCONSO.cpy](scenarios/restartable-consumer/copy/IXYCONSO.cpy) - Use this updated output copybook for consumer base program IXYCONS.
+3. [IXYSCONS.cbl](scenarios/restartable-consumer/src/IXYSCONS.cbl) - Consumer sample updated to handle Basic restartable batch job using a checkpoint file.
+4. [IXYJCONS.jcl](jcl/IXYJCONS.jcl) - Use this JCL to compile the updated base consumer module
+5. [IXYCON64.cbl](scenarios/restartable-consumer/src/IXYCON64.cbl) - Consumer Application program which invokes the updated base consumer module IXYSCONS    by providing the details of partition and offset, in case of restart.
+6. [IXYJCN64.cbl](jcl/IXYJCN64.cbl) - Use this JCL to compile the updated application consumer program IXYCON64.cbl
+7. [CHKPTFIL.cpy](scenarios/restartable-consumer/copy/CHKPTFIL.cpy) - Use this copybook to create a Checkpoint file of size 2049 similar to other config files. Provide the partition and offset. Offset can be set to zero.
+8. [IXYCCONF.CONFIG](scenarios/restartable-consumer/conf/IXYCCONF.CONFIG) - use this consumer configuration file which includes enabling end of partition to true for detecting the end of partition when it occurs. Update other details accordingly.
+9. [IXYJRC64.jcl](scenarios/restartable-consumer/jcl/IXYJRC64.jcl) - Use this JCL to run the consumer application program by providing the checkpoint file created. PARM value should be RESTART incase of job restart or it can be NONE.
 
 ## Prerequisites
 
