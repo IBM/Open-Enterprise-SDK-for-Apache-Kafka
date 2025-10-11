@@ -1,0 +1,45 @@
+      ******************************************************************
+      * Copyright IBM Corp. 2025
+      *
+      * Licensed under the Apache License, Version 2.0 (the "License");
+      * you may not use this file except in compliance with the License.
+      * You may obtain a copy of the License at
+      * 
+      *     http://www.apache.org/licenses/LICENSE-2.0
+      * 
+      * Unless required by applicable law or agreed to in writing
+      * , software distributed under the License is distributed on an 
+      * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+      * either express or implied. See the License for the specific 
+      * language governing permissions and limitations under the
+      * License.
+      ******************************************************************
+      **                 KAFKA CONSUMER IN COPYBOOK                   **
+      ******************************************************************
+      ** This copybook is used in consumer program to pass the input  **
+      ** parameters from the calling program. Sample usage is of this **
+      ** provided in IXYCON31,IXYCON64,IXYCNS31 and IXYCNS64          **
+      ** programs calling IXYSCONS program.                           **
+      ******************************************************************
+            05 KAFKA-ACTION         PIC X(1).
+               88 KAFKA-INIT        VALUE 'I'.
+               88 KAFKA-CONSUME     VALUE 'C'.
+               88 KAFKA-DELETE      VALUE 'D'.
+            05 CONFIG-DATA OCCURS 15 TIMES.
+               10 CONFIG-NAME       PIC X(1024).
+               10 CONFIG-VALUE      PIC X(1024).
+            05 NUM-OF-PARMS         PIC S9(09) BINARY.
+            05 KAFKA-TOPIC-NAME     PIC X(2049).
+            05 KAFKA-TYPE-PC        PIC 9(18) BINARY.
+            05 PARTITION-VALUE      PIC S9(09) BINARY.
+            05 MSGFLAGS-VALUE       PIC X(01).
+            05 TIMEOUT-MS-VALUE     PIC S9(09) BINARY.
+            05 KAFKA-PART-LIST-SIZE PIC S9(09) BINARY.
+            05 DISABLE-LOG-CONV     PIC X(16).
+            05 CALLER-31BIT         PIC X(01).
+            05 RESTART-IND          PIC X(01).
+            05 RESTART-DATA OCCURS 15 TIMES.
+              10 RESTART-FLAG         PIC X(01).
+              10 RESTART-PARTITION    PIC S9(9) BINARY.
+              10 RESTART-OFFSET       PIC S9(18) BINARY.
+            05 RESTART-PARTNOS      PIC 9(9).

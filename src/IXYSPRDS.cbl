@@ -373,7 +373,7 @@
                             )
                        TO RETURN-STATUS      OF KAFKA-DESTROY-OUT
 
-             IF RETURN-STATUS OF KAFKA-TOPIC-DESTROY-OUT NOT = 0
+             IF RETURN-STATUS OF KAFKA-DESTROY-OUT NOT = 0
                DISPLAY "VALUE RETURNED FROM KAFDEST :  "
                              RETURN-STATUS      OF KAFKA-DESTROY-OUT
                MOVE "FAILURE IN KAFKA-DESTROY" TO KAFKA-MSG
