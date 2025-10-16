@@ -9,25 +9,28 @@ This repository contains samples that take advantage of the Open Enterprise SDK 
 1. [Introduction to IBM Open Enterprise SDK for Apache Kafka](#1-introduction-to-ibm-open-enterprise-sdk-for-apache-kafka)
 2. [Useful resources for IBM Open Enterprise SDK for Apache Kafka](#2-useful-resources-for-ibm-open-enterprise-sdk-for-apache-kafka)
 3. [Create COBOL Kafka Producer Application](#3-create-cobol-kafka-producer-application)
+
     3.1. [Creating IXYSPRDS, Kafka producer base COBOL program](#31-creating-ixysprds-kafka-producer-base-cobol-program)  
     3.2. [Creating IXYPRD64, Kafka producer application COBOL program](#32-creating-ixyprd64-kafka-producer-application-cobol-program)  
     3.3. [Create Kafka producer configuration file](#33-create-kafka-producer-configuration-file)  
     3.4. [Create topic configuration file](#34-create-topic-configuration-file)  
     3.5. [Compile Kafka producer Application](#35-compile-kafka-producer-application)  
     3.6. [Run producer application](#36-run-producer-application)  
-4. [Create COBOL Kafka Consumer Application](#4-create-cobol-kafka-consumer-application)
+5. [Create COBOL Kafka Consumer Application](#4-create-cobol-kafka-consumer-application)
+   
     4.1. [Creating IXYSCONS, Kafka consumer base COBOL program](#41-creating-ixyscons-kafka-consumer-base-cobol-program)  
     4.2. [Creating IXYCON64, Kafka consumer application COBOL program](#42-creating-ixycon64-kafka-consumer-application-cobol-program)  
     4.3. [Create consumer configuration file](#43-create-consumer-configuration-file)  
     4.4. [Create topic configuration file](#44-create-topic-configuration-file)  
     4.5. [Compile Kafka consumer application](#45-compile-kafka-consumer-application)  
     4.6. [Run consumer application](#46-run-consumer-application)  
-5. [Serialization and Deserialization](#5-serialization-and-deserialization)
+7. [Serialization and Deserialization](#5-serialization-and-deserialization)
+   
     5.1. [Data Transformation Utility](#51-data-transformation-utility)  
     5.2. [Run Kafka producer sample with data serialization](#52-run-kafka-producer-sample-with-data-serialization)  
     5.3. [Run Kafka consumer sample with data deserialization](#53-run-kafka-consumer-sample-with-data-deserialization)  
-6. [Best Practices](#6-best-practices)
-7. [Getting help and troubleshooting](#7-getting-help-and-troubleshooting)
+9. [Best Practices](#6-best-practices)
+10. [Getting help and troubleshooting](#7-getting-help-and-troubleshooting)
 
 ---
 
