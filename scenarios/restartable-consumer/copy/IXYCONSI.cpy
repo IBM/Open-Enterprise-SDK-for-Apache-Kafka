@@ -37,9 +37,9 @@
             05 KAFKA-PART-LIST-SIZE PIC S9(09) BINARY.
             05 DISABLE-LOG-CONV     PIC X(16).
             05 CALLER-31BIT         PIC X(01).
-            05 RESTART-IND          PIC X(01).
+      *     05 RESTART-IND          PIC X(01).
             05 RESTART-DATA OCCURS 15 TIMES.
-              10 RESTART-FLAG         PIC X(01).
               10 RESTART-PARTITION    PIC S9(9) BINARY.
               10 RESTART-OFFSET       PIC S9(18) BINARY.
-            05 RESTART-PARTNOS      PIC 9(9).
+            05 TOTAL-PARTNOS        PIC 9(9).
+            05 CONSUME-PARTITION    PIC S9(9) BINARY.
