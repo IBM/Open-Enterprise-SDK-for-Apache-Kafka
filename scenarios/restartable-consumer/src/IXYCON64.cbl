@@ -188,6 +188,7 @@
                    DISPLAY "CONSUME-PART : " CONSUME-PARTITION
                    PERFORM UNTIL WS-END-CONSUMER = 'Y'
                            PERFORM KAFKA-CONSUME-MESSAGE
+                           PERFORM WRITE-CHKPT-FILE                           
                    END-PERFORM
 
                    ADD 1 TO WS-PCNT
@@ -195,7 +196,6 @@
 
            DISPLAY "KAFKA MESSAGE CONSUME DONE"
            DISPLAY "NUMBER OF KAFKA MESSAGES CONSUMED : " WS-CONSUME-CNT
-           PERFORM WRITE-CHKPT-FILE
            PERFORM DESTROY-KAFKA-CONSUME
            GOBACK
            .
