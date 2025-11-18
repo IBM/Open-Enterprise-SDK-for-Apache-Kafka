@@ -23,7 +23,7 @@ This repository contains Kafka consumer samples upgraded using the base samples 
 
 ## Features
 ### First Processing :
-1. Reads the checkpoint file for partition numbers. Offsets are reset to 0 for convinience.
+1. Reads the checkpoint file for partition numbers. Offsets are set to -2 which points to the beginning of partition.
 2. Low level API's are invoked for initialising and consuming from each partition.
 3. Destroy after end of partitions is reached for all partitions.
 
@@ -38,8 +38,8 @@ This repository contains Kafka consumer samples upgraded using the base samples 
 1. Compile the COBOL program IXYSCONS using the JCL IXYJCONS.
 2. Simulate a failure by forcing an abend or interrupt in application program IXYCON64 after consuming certain records. Use WS-CONSUME-CNT which has the count of messages consumed. Either use PERFORM UNTIL WS-CONSUME-CNT is equal to some value or add explicit abend after consuming certain messages.
 3. Compile the COBOL program IXYCON64 using the JCL IXYJCN64. 
-4. Have the Checkpoint file created using the copybook CHKPTFIL.cpy with size 2049 having all partitions and offset can be set to 0. Please Note Partition is needed since Metadata API is not available currently and it is work in progress.
-5. Execute the job using the corresponding run JCL IXYJRC64 with PARM as NONE and new checkpoint file, so that job fails after consuming certain messages. Note that COMMIT happens to the checkpoint file after every record. 
-6. Restart the same job again with using the PARM value as 'RESTART' which reads the checkpoint file and resumes processing from the next offset until end of partition is reached for each partition.
+4. Have the Checkpoint file created using the copybook CHKPTFIL.cpy with size 2049 having all partitions and offset can be set to -2 which denotes the beginning of partition. Please Note Partition is needed since Metadata API is not available currently and it is work in progress.
+5. Execute the job using the corresponding run JCL IXYJRC64, so that job fails after consuming certain messages. Note that COMMIT happens to the checkpoint file after every record. 
+6. Restart the same job again which reads the checkpoint file and resumes processing from the next offset until end of partition is reached for each partition.
 
 ---

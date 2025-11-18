@@ -26,6 +26,9 @@
       * topic details. It uses CHKPTFIL to get the partition and offset
       * details.
       *
+      * Please Note that it is just a sample application program not a
+      * production ready module.
+      *
       * This COBOL program is designed to:
       *
       * 1. Initialize a Kafka consumer.
@@ -207,9 +210,9 @@
       * file that stores Kafka partition and offsets, which are used to
       * resume message consumption from the particular point. It opens
       * the file in input mode and reads each record until the end of
-      * the file is reached. If the offset is greater than zero,
-      * increments it by one to avoid reprocessing the last consumed
-      * message. After all records are read, the total number of
+      * the file is reached. Increments the offset by 1 to avoid 
+      * reprocessing the last consumed message if offsets are 0 or 
+      * greater than 0. After all records are read, the total number of 
       * partitions is stored in TOTAL-PARTNOS, and the file is closed.
       ******************************************************************
            OPEN INPUT CHKPTFIL
@@ -226,7 +229,7 @@
                           RESTART-PARTITION(WS-RCNT)
                        MOVE CHKPT-OFFSET TO WS-RESTART-OFFSET(WS-RCNT)
 
-                       IF WS-RESTART-OFFSET(WS-RCNT) > 0
+                       IF WS-RESTART-OFFSET(WS-RCNT) >= 0
                           MOVE WS-RESTART-OFFSET(WS-RCNT) TO
                              RESTART-OFFSET(WS-RCNT)
                           ADD 1 TO RESTART-OFFSET(WS-RCNT)

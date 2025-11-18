@@ -24,6 +24,8 @@
       ******************************************************************
       * This sample module consumes the message from the KAFKA topic
       * provided for the KAFKA broker.
+      * Please note that it is just a sample and not a production ready 
+      * module.      
       ******************************************************************
        IDENTIFICATION DIVISION.
         PROGRAM-ID. 'IXYSCONS'.
