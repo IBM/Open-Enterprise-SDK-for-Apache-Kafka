@@ -288,8 +288,8 @@
       * directly assigned. If the conversion fails, an error message and
       * code are set, and the program exits. If no repsonse obtained
       * from IXY-KAFKA-CONSUME, then using IXY-KAFKA-LAST-ERROR retrieve
-      * the latest error code, get the error message generated and exit. 
-      * If end of partition error obtained i.e., -191, then set error 
+      * the latest error code, get the error message generated and exit.
+      * If end of partition error obtained i.e., -191, then set error
       * code and error description only. Destroy the message finally
       * using IXY-KAFKA-MESSAGE-DESTROY.
       ******************************************************************
@@ -365,11 +365,11 @@
                          DISPLAY "WITHIN CONDITION"
 
                          MOVE ERROR-CODE TO
-                              RETURN-STATUS OF KAFKA-ERR2STR-IN
+                            RETURN-STATUS OF KAFKA-ERR2STR-IN
                          PERFORM GENERATE-ERR-STR
                       ELSE
                          MOVE ERROR-CODE TO
-                              RETURN-STATUS OF KAFKA-ERR2STR-IN
+                            RETURN-STATUS OF KAFKA-ERR2STR-IN
                          PERFORM GENERATE-ERR-STR
                          GOBACK
                       END-IF
@@ -396,9 +396,9 @@
       * The KAFKA-DELETE block handles the cleanup and deletion of Kafka
       * consumer resources. It begins by iterating through all consumed
       * partitions and stops consumption for each partition using the
-      * IXY-KAFKA-CONSUME-STOP function. After stopping all partitions, 
-      * the program proceeds to destroy the Kafka topic using 
-      * IXY-KAFKA-TOPIC-DESTROY. Finally, the Kafka instance itself is 
+      * IXY-KAFKA-CONSUME-STOP function. After stopping all partitions,
+      * the program proceeds to destroy the Kafka topic using
+      * IXY-KAFKA-TOPIC-DESTROY. Finally, the Kafka instance itself is
       * destroyed using IXY-KAFKA-DESTROY.
       ******************************************************************
                 MOVE 1 TO WS-RCNT

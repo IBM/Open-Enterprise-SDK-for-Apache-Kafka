@@ -1,4 +1,3 @@
-
        CBL PGMNAME(LONGMIXED) NODLL NOEXPORTALL
       ******************************************************************
       * Copyright IBM Corp. 2025
@@ -53,12 +52,10 @@
       * 6) CHKPTFIL - This is the file which contains the partition and
       *    offset details. Provide the individual partition numbers as
       *    each record in the file. For First processing, offset is not
-      *    needed and can be 0. Even though the offset is passed for
-      *    processing, it would not be considered as per current logic.
-      *    Provide the offset for each partitions to be able to restart
-      *    from the next available offset. If running restart after
-      *    first processing, then offset would be taken automatically
-      *    after the first run.
+      *    needed and can be 0. Provide the offset for each partitions
+      *    to be able to restart from the next available offset. If
+      *    restarting after first processing, then offset would be
+      *    taken automatically after the first run.
       ******************************************************************
        IDENTIFICATION DIVISION.
         PROGRAM-ID. 'IXYCON64'.
@@ -114,19 +111,23 @@
       * WORKING-STORAGE SECTION - Kafka Consumer Program               *
       ******************************************************************
       * Consumer Values
-       01 PART-VAL                    PIC S9(9) BINARY VALUE -1.
-       01 PART-LIST-SIZE              PIC S9(9) BINARY VALUE 1.
-       01 MSGFLGS-VAL                 PIC X(01) VALUE X'02'.
-       01 TIMEOUT-MS                  PIC S9(9) BINARY VALUE 8000.
-       01 WS-CONSUME-CNT              PIC 9(9) VALUE 0.
-       01 WS-END-CONSUMER             PIC X(1) VALUE 'N'.
-       01 TOPIC-LENGTH                PIC S9(4) BINARY VALUE 0.
+       01 PART-VAL                    PIC S9(9) BINARY
+                                                  VALUE -1.
+       01 PART-LIST-SIZE              PIC S9(9) BINARY
+                                                  VALUE 1.
+       01 MSGFLGS-VAL                 PIC X(01)   VALUE X'02'.
+       01 TIMEOUT-MS                  PIC S9(9) BINARY
+                                                  VALUE 8000.
+       01 WS-CONSUME-CNT              PIC 9(9)    VALUE 0.
+       01 WS-END-CONSUMER             PIC X(1)    VALUE 'N'.
+       01 TOPIC-LENGTH                PIC S9(4) BINARY
+                                                  VALUE 0.
        01 WS-DISPLAY-ERR              PIC S9(9) SIGN IS LEADING
-                                      SEPARATE.
+                                                  SEPARATE.
        01 KAFKA-MSG-TEMP              PIC X(1024).
-       01 WS-RCNT                     PIC 9(9) VALUE 0.
-       01 MC-REMAINDER                PIC 9(4) VALUE 0.
-       01 MC-QUOTIENT                 PIC 9(4) VALUE 0.
+       01 WS-RCNT                     PIC 9(9)    VALUE 0.
+       01 MC-REMAINDER                PIC 9(4)    VALUE 0.
+       01 MC-QUOTIENT                 PIC 9(4)    VALUE 0.
 
       * Checkpoint Record
        01 WS-CHECK-POINT-REC.
@@ -135,24 +136,28 @@
              10 WS-RESTART-OFFSET     PIC S9(18) BINARY.
 
       * Counters
-       01 WS-CNT1                     PIC 9(9) VALUE 1.
-       01 WS-PCNT                     PIC 9(9) VALUE 1.
+       01 WS-CNT1                     PIC 9(9)    VALUE 1.
+       01 WS-PCNT                     PIC 9(9)    VALUE 1.
 
       * File Status
        01 WS-FILE-STATUS              PIC 9(2).
        01 WS-EOF-SW                   PIC X(1).
-          88 WS-EOF                   VALUE 'Y'.
-          88 WS-NOT-EOF               VALUE 'N'.
+          88 WS-EOF                               VALUE 'Y'.
+          88 WS-NOT-EOF                           VALUE 'N'.
 
       * Configuration File Parsing
-       01 WS-CNT                      PIC S9(9) BINARY VALUE 0.
-       01 WS-PARMLEN                  PIC S9(9) BINARY VALUE 0.
-       01 WS-VALLEN                   PIC S9(9) BINARY VALUE 0.
-       01 WS-DELIMITER-POS            PIC S9(9) BINARY VALUE 0.
+       01 WS-CNT                      PIC S9(9) BINARY
+                                                  VALUE 0.
+       01 WS-PARMLEN                  PIC S9(9) BINARY
+                                                  VALUE 0.
+       01 WS-VALLEN                   PIC S9(9) BINARY
+                                                  VALUE 0.
+       01 WS-DELIMITER-POS            PIC S9(9) BINARY
+                                                  VALUE 0.
 
        01 KAFKA-CONFIG-DATA.
           05 KAFKA-CONFIG-PARM        PIC X(1024).
-          05 WS-DELIMITER             PIC X VALUE '='.
+          05 WS-DELIMITER             PIC X       VALUE '='.
           05 KAFKA-CONFIG-VALUE       PIC X(1024).
 
       * Input/Output for Consumer Program
@@ -164,31 +169,27 @@
             COPY IXYCONSI.
        01 CONSUMER-OUTPUT.
             COPY IXYCONSO.
-       01 CONSUMER-PGM                PIC X(8) VALUE "IXYSCONS".
+       01 CONSUMER-PGM                PIC X(8)    VALUE "IXYSCONS".
 
       * Linkage Section
        LINKAGE SECTION.
        01 KAFKA-MSG-ASCII             PIC X(1024).
-       01 PARM-DATA.
-          05 PARM-LENGTH              PIC S9(4) COMP.
-          05 RUN-TYPE                 PIC X(7).
 
-       PROCEDURE DIVISION USING PARM-DATA.
+       PROCEDURE DIVISION.
+
            DISPLAY "KAFKA AMODE 64 PROGRAM"
            PERFORM READ-CONSUMER-TOPIC
            PERFORM READ-CONSUMER-CONFIG
            PERFORM READ-CHKPT-FILE
            PERFORM INIT-KAFKA-CONSUMER
 
-           DISPLAY "WS-RCNT : " WS-RCNT
            PERFORM UNTIL(WS-PCNT > WS-RCNT)
-                   DISPLAY "WS-PCNT : " WS-PCNT
                    MOVE 'N' TO WS-END-CONSUMER
                    MOVE RESTART-PARTITION(WS-PCNT) TO CONSUME-PARTITION
-                   DISPLAY "CONSUME-PART : " CONSUME-PARTITION
+
                    PERFORM UNTIL WS-END-CONSUMER = 'Y'
                            PERFORM KAFKA-CONSUME-MESSAGE
-                           PERFORM WRITE-CHKPT-FILE                           
+                           PERFORM WRITE-CHKPT-FILE
                    END-PERFORM
 
                    ADD 1 TO WS-PCNT
@@ -206,11 +207,9 @@
       * file that stores Kafka partition and offsets, which are used to
       * resume message consumption from the particular point. It opens
       * the file in input mode and reads each record until the end of
-      * the file is reached. If the program is running in "RESTART" mode
-      * and the offset is greater than zero, it sets the restart offset
-      * for the partition and increments it by one to avoid reprocessing
-      * the last consumed message. Otherwise, it initializes the offset
-      * to zero. After all records are read, the total number of
+      * the file is reached. If the offset is greater than zero,
+      * increments it by one to avoid reprocessing the last consumed
+      * message. After all records are read, the total number of
       * partitions is stored in TOTAL-PARTNOS, and the file is closed.
       ******************************************************************
            OPEN INPUT CHKPTFIL
@@ -221,28 +220,18 @@
                       SET WS-EOF TO TRUE
                    NOT AT END
                        ADD 1 TO WS-RCNT
-                       DISPLAY "READING CHECKPOINT FILE"
-                       DISPLAY "PARTITION IN FILE: " CHKPT-PARTITION
-                       DISPLAY "OFFSET IN FILE : " CHKPT-OFFSET
+
                        MOVE CHKPT-PARTITION TO
                           WS-RESTART-PARTITION(WS-RCNT)
                           RESTART-PARTITION(WS-RCNT)
                        MOVE CHKPT-OFFSET TO WS-RESTART-OFFSET(WS-RCNT)
 
-                       IF RUN-TYPE = 'RESTART'
-                          IF WS-RESTART-OFFSET(WS-RCNT) > 0
-                             MOVE WS-RESTART-OFFSET(WS-RCNT) TO
-                                RESTART-OFFSET(WS-RCNT)
-                             ADD 1 TO RESTART-OFFSET(WS-RCNT)
-                             DISPLAY "OFFSET TO MODULE : "
-                                     RESTART-OFFSET(WS-RCNT)
-                          END-IF
-                       ELSE
-                          MOVE 0 TO RESTART-OFFSET(WS-RCNT)
-                          DISPLAY "OFFSET TO MODULE : "
-                                  RESTART-OFFSET(WS-RCNT)
-                       END-IF
+                       IF WS-RESTART-OFFSET(WS-RCNT) > 0
+                          MOVE WS-RESTART-OFFSET(WS-RCNT) TO
+                             RESTART-OFFSET(WS-RCNT)
+                          ADD 1 TO RESTART-OFFSET(WS-RCNT)
 
+                       END-IF
                    END-READ
            END-PERFORM
            MOVE WS-RCNT TO TOTAL-PARTNOS
