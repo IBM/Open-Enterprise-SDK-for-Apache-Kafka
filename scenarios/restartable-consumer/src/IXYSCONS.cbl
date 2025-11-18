@@ -344,7 +344,6 @@
                    IF KAFKA-MESSAGE-REF OF KAFKA-CONSUME-OUT
                       = NULL
 
-                      DISPLAY "WITHIN LAST ERROR "
                       MOVE FUNCTION IXY-KAFKA-LAST-ERROR
                          TO RETURN-STATUS OF KAFKA-LAST-ERROR-OUT
 
@@ -364,7 +363,6 @@
 
                    ELSE
                       IF ERROR-CODE = -191
-                         DISPLAY "WITHIN CONDITION"
 
                          MOVE ERROR-CODE TO
                             RETURN-STATUS OF KAFKA-ERR2STR-IN
