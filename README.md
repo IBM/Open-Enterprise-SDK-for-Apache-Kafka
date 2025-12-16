@@ -298,3 +298,11 @@ http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 ---
+
+**Sample Code Usage Disclaimer**
+
+The sample applications, code snippets, and example configurations provided in this repository are intended only for reference and learning purposes. They illustrate how to exercise the functionality of the IBM Open Enterprise SDK for Apache Kafka, but they are not designed, tested, or supported for production usage. These samples may not include comprehensive error handling, security hardening, performance optimizations, or other production-grade features.
+Before using any sample code in a production environment:
+- Validate and review the application logic carefully.
+- Adapt and enhance the code to meet your functional, performance, security, and operational requirements.
+- Write your own implementation based on your project’s architecture and quality standards.
