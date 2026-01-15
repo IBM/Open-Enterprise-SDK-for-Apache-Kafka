@@ -35,9 +35,6 @@
 //* 5) Change @@CHKPTFIL@@ to the path for the Checkpoint file which
 //*    holds the Partition and Offset details.
 //* 
-//* 6) Keep the PARM Value as RESTART in case Restart and to NONE in 
-//*    case of normal execution.
-//* 
 //********************************************************************
 //SETPARM SET IXYHLQ=@@IXYHLQ@@,
 //            CEEHLQ=@@CEEHLQ@@
@@ -45,7 +42,7 @@
 //********************************************************************
 //* Run KAFKA IXYCON64
 //********************************************************************
-//CONSUMER EXEC PGM=IXYCON64,REGION=0M,PARM='RESTART'
+//CONSUMER EXEC PGM=IXYCON64,REGION=0M
 //STEPLIB  DD DISP=SHR,DSN=&IXYHLQ..SIXYSAMP.LOAD
 //         DD DISP=SHR,DSN=&IXYHLQ..SIXYLOAD
 //         DD DISP=SHR,DSN=&CEEHLQ..SCEERUN2
